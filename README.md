@@ -1,5 +1,5 @@
 # gestaoTarefas
-CP2 - 2sem
+Trabalho atualizado para o CP2 - 2sem
 
 Integrantes:
 
