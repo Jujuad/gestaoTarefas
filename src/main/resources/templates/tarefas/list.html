@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="fragments/layout :: layout">
+<head>
+    <title>Lista de Tarefas</title>
+</head>
+<body>
+<h1>Lista de Tarefas</h1>
+<a href="/tarefas/novo">Nova Tarefa</a>
+<form action="/tarefas/pesquisar" method="get">
+    <input type="text" name="criterio" placeholder="Pesquisar Tarefa"/>
+    <button type="submit">Pesquisar</button>
+</form>
+<table>
+    <thead>
+    <tr>
+        <th>Título</th>
+        <th>Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="tarefa : ${tarefas}">
+        <td th:text="${tarefa.titulo}"></td>
+        <td>
+            <a th:href="@{/tarefas/{id}/editar(id=${tarefa.id})}">Editar</a>
+            <a th:href="@{/tarefas/{id}/excluir(id=${tarefa.id})}">Excluir</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

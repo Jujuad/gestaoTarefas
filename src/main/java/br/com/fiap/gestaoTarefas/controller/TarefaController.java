@@ -2,50 +2,64 @@ package br.com.fiap.gestaoTarefas.controller;
 
 import br.com.fiap.gestaoTarefas.dto.tarefa.TarefaDto;
 import br.com.fiap.gestaoTarefas.model.task.Tarefa;
-import br.com.fiap.gestaoTarefas.repository.TarefaRepository;
 import br.com.fiap.gestaoTarefas.service.TarefaService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/tasks")
+@Controller
+@RequestMapping("/tarefas")
 public class TarefaController {
 
     @Autowired
     private TarefaService tarefaService;
 
-    @PostMapping
-    public ResponseEntity<Tarefa> criarTarefa(@Valid @RequestBody TarefaDto tarefaDto,
-                                              @AuthenticationPrincipal UserDetails usuario) {
-        Tarefa tarefa = tarefaService.criarTarefa(tarefaDto, usuario.getUsername());
-        return new ResponseEntity<>(tarefa, HttpStatus.CREATED);
-    }
-
     @GetMapping
-    public ResponseEntity<List<Tarefa>> visualizarTarefas(@AuthenticationPrincipal UserDetails usuario) {
-        List<Tarefa> tarefas = tarefaService.visualizarTarefas(usuario.getUsername());
-        return ResponseEntity.ok(tarefas);
+    public String listarTarefas(Model model) {
+        List<Tarefa> tarefas = tarefaService.visualizarTarefas();
+        model.addAttribute("tarefas", tarefas);
+        return "tarefas/list";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Tarefa> atualizarTarefa(@PathVariable Long id,
-                                                  @Valid @RequestBody TarefaDto tarefaDto,
-                                                  @AuthenticationPrincipal UserDetails usuario) {
-        Tarefa tarefa = tarefaService.atualizarTarefa(id, tarefaDto, usuario.getUsername());
-        return ResponseEntity.ok(tarefa);
+    @GetMapping("/novo")
+    public String mostrarFormularioNovo(Model model) {
+        model.addAttribute("tarefa", new TarefaDto());
+        return "tarefas/form";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluirTarefa(@PathVariable Long id,
-                                              @AuthenticationPrincipal UserDetails usuario) {
-        tarefaService.excluirTarefa(id, usuario.getUsername());
-        return ResponseEntity.noContent().build();
+    @PostMapping
+    public String criarTarefa(@Valid @ModelAttribute("tarefa") TarefaDto tarefaDto) {
+        tarefaService.criarTarefa(tarefaDto);
+        return "redirect:/tarefas";
+    }
+
+    @GetMapping("/{id}/editar")
+    public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
+        Tarefa tarefa = tarefaService.obterTarefaPorId(id);
+        model.addAttribute("tarefa", tarefa);
+        return "tarefas/form";
+    }
+
+    @PostMapping("/{id}")
+    public String atualizarTarefa(@PathVariable Long id, @Valid @ModelAttribute("tarefa") TarefaDto tarefaDto) {
+        tarefaService.atualizarTarefa(id, tarefaDto);
+        return "redirect:/tarefas";
+    }
+
+    @GetMapping("/{id}/excluir")
+    public String excluirTarefa(@PathVariable Long id) {
+        tarefaService.excluirTarefa(id);
+        return "redirect:/tarefas";
+    }
+
+    @GetMapping("/pesquisar")
+    public String pesquisarTarefas(@RequestParam String criterio, Model model) {
+        List<Tarefa> tarefas = tarefaService.pesquisarTarefas(criterio);
+        model.addAttribute("tarefas", tarefas);
+        return "tarefas/search";
     }
 }
