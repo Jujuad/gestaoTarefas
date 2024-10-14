@@ -1,5 +1,5 @@
 # gestaoTarefas
-CP1 - 2sem
+CP2 - 2sem
 
 Integrantes:
 

@@ -27,7 +27,7 @@ public class Tarefa {
     private String descricao;
 
     @Column(name = "dt_conclusao_prevista", nullable = false)
-    private String dataConclusaoPrevista; // Use LocalDate ou LocalDateTime se necessário
+    private LocalDate dataConclusaoPrevista; // Usando LocalDate para manipulação de data
 
     @Column(name = "nm_status", nullable = false)
     private String status;
@@ -39,12 +39,20 @@ public class Tarefa {
     public Tarefa(String titulo, String descricao, LocalDate dataConclusaoPrevista, String status, Usuario usuario) {
         this.titulo = titulo;
         this.descricao = descricao;
-        this.dataConclusaoPrevista = String.valueOf(dataConclusaoPrevista);
+        this.dataConclusaoPrevista = dataConclusaoPrevista;
         this.status = status;
         this.usuario = usuario;
     }
 
     public Tarefa(String titulo, String descricao, String dataConclusaoPrevista, String pendente, Usuario usuario) {
     }
+
+    public Tarefa(String titulo, String descricao, LocalDate dataConclusaoPrevista, String status) {
+    }
+
+    public Tarefa(String titulo, String descricao, String dataConclusaoPrevista, String status) {
+    }
 }
+
+
 

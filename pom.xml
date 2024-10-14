@@ -13,19 +13,26 @@
 	<artifactId>gestaoTarefas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>gestaoTarefas</name>
-	<description>API desenvolvida para o primeiro checkpoint do segundo semestre</description>
+	<description>API atualizada para o segundo checkpoint do segundo semestre</description>
 	<url/>
 	<licenses>
-		<license/>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
 	</licenses>
 	<developers>
-		<developer/>
+		<developer>
+			<id>your-id</id>
+			<name>Your Name</name>
+			<email>your.email@example.com</email>
+		</developer>
 	</developers>
 	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
+		<connection>scm:git:git://github.com/your/repo.git</connection>
+		<developerConnection>scm:git:ssh://github.com/your/repo.git</developerConnection>
+		<tag>HEAD</tag>
+		<url>http://github.com/your/repo</url>
 	</scm>
 	<properties>
 		<java.version>17</java.version>
@@ -67,6 +74,15 @@
 			<groupId>org.hibernate.validator</groupId>
 			<artifactId>hibernate-validator</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -86,8 +102,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>22</source>
-					<target>22</target>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 					<compilerArgs>
 						<arg>--enable-preview</arg>
 					</compilerArgs>
